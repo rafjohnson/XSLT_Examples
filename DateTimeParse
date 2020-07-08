@@ -1,0 +1,40 @@
+  <xsl:template name="DateTimeParse">
+    <!--Translates a date in MH Format YYYY-MM-DD HH:mm:SS.SSS to YYYYMMDDHHMM (12)-->
+    <xsl:param name ="Date"/>
+    <!--Variables-->
+
+
+    <!--Parsing-->
+    <xsl:choose>
+      <xsl:when test="$Date!=''">
+        <xsl:variable name="year" select="substring(concat('0000',(substring-before($Date,'-'))),string-length(substring-before($Date,'-'))+1,4)"/>
+        <xsl:variable name="month" select ="substring(concat('00',(substring-before(substring-after($Date,'-'), '-'))),string-length(substring-before(substring-after($Date,'-'), '-'))+1,2)"/>
+        <xsl:variable name ="day">
+          <xsl:call-template name="substring-after-last">
+            <xsl:with-param name="string" select="$Date"/>
+            <xsl:with-param name="delimiter" select="'-'"/>
+          </xsl:call-template>
+        </xsl:variable>
+
+
+
+        <!--Day still has spaces/symbols-->
+
+        <xsl:variable name="DayTime">
+          <xsl:call-template name="removeSymbols">
+            <xsl:with-param name="string" select="$day"/>
+          </xsl:call-template>
+        </xsl:variable>
+        <xsl:call-template name="LabCorpOutput">
+          <xsl:with-param name="length">12</xsl:with-param>
+          <xsl:with-param name="string" select="concat($year,$month,$DayTime)"/>
+
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:variable name="empty"/>
+        <xsl:value-of select="$empty"/>
+      </xsl:otherwise>
+    </xsl:choose>
+
+  </xsl:template>

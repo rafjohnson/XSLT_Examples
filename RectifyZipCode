@@ -1,0 +1,14 @@
+ <xsl:template name="rectifyZipCode">
+    <xsl:param name="ZipCodeString"/>
+    <xsl:variable name="sanitizedZC">
+      <xsl:value-of select="translate($ZipCodeString, translate($ZipCodeString,'0123456789',''),'')"/>
+    </xsl:variable>
+    <xsl:choose>
+      <xsl:when test="string-length($sanitizedZC) =5 or string-length($sanitizedZC) =9">
+        <xsl:value-of select="$sanitizedZC"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="blankSpace"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>

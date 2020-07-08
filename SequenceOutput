@@ -1,0 +1,47 @@
+  <xsl:template name="SequenceOutput">
+    <!--Input: Integer-->
+    <!--Output: Two Character alpha, A to ZZ indicating sequence Position-->
+    <xsl:param name="Input"/>
+
+    <!--First Character and Second Character are handled separately, and concatted at the end. 0's are also handled
+    separately-->
+
+    <xsl:variable name="First_Char_Numeric">
+      <xsl:value-of select="floor($Input div 27)"/>
+    </xsl:variable>
+
+    <xsl:variable name="Second_Char_Numeric">
+      <xsl:value-of select="($Input mod 26)"/>
+
+    </xsl:variable>
+
+    <xsl:variable name="First_Char_Alfa">
+      <xsl:choose>
+        <xsl:when test="$First_Char_Numeric = '0'">
+          <xsl:value-of select="''"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="Numeric_To_Alpha">
+            <xsl:with-param name="Input" select="$First_Char_Numeric"/>
+          </xsl:call-template>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="Second_Char_Alfa">
+      <xsl:choose>
+        <xsl:when test="$Second_Char_Numeric = '0'">
+          <xsl:value-of select="'Z'"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="Numeric_To_Alpha">
+            <xsl:with-param name="Input" select="$Second_Char_Numeric"/>
+          </xsl:call-template>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+
+    <xsl:value-of select="normalize-space(concat($First_Char_Alfa,$Second_Char_Alfa))"/>
+
+  </xsl:template>

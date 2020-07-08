@@ -1,0 +1,22 @@
+  <xsl:template name="rectifyPhoneNumber">
+    <!--Takes in a string which contains something like a phone number-->
+    <!--It first removes any symbols or alpha chars -->
+    <!--finally, it checks that the length is 10 characters, indicating the full phone number.
+  If it's not 10 characters, it returns blank-->
+    <xsl:param name ="phoneNumberString"/>
+
+    <xsl:variable name="sanitizedPN">
+      <xsl:value-of select="translate($phoneNumberString, translate($phoneNumberString,'0123456789',''),'')"/>
+    </xsl:variable>
+    <xsl:choose>
+      <xsl:when test="string-length($sanitizedPN) >= 10">
+        <xsl:call-template name="LabCorpOutput">
+          <xsl:with-param name="string" select="$sanitizedPN"/>
+          <xsl:with-param name="length" select="10"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="blankSpace"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>

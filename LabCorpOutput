@@ -1,0 +1,8 @@
+  <xsl:template name="LabCorpOutput">
+    <!-- Truncates the string to the length specified, and translates everything to upper-->
+    <xsl:param name="string"/>
+    <xsl:param name="length"/>
+    <xsl:variable name ="lowercase" select="'abcdefghijklmnopqrstuvwxyz'" />
+    <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
+    <xsl:value-of select="translate(substring(normalize-space($string),1,$length),$lowercase,$uppercase)" />
+  </xsl:template>
