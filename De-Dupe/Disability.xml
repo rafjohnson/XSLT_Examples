@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<Disabilities>
+
+
+<Disability>
+
+<Name>PARALYSIS OF SCIATIC NERVE</Name>
+
+<ScPercent>20</ScPercent>
+
+<IsDisabilityscFlag>true</IsDisabilityscFlag>
+
+</Disability>
+
+
+<Disability>
+
+<Name>PARALYSIS OF ULNAR NERVE</Name>
+
+<ScPercent>20</ScPercent>
+
+<IsDisabilityscFlag>true</IsDisabilityscFlag>
+
+</Disability>
+
+
+<Disability>
+
+<Name>PARALYSIS OF SCIATIC NERVE</Name>
+
+<ScPercent>20</ScPercent>
+
+<IsDisabilityscFlag>true</IsDisabilityscFlag>
+
+</Disability>
+
+</Disabilities>
