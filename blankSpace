@@ -1,0 +1,5 @@
+  <xsl:template name="blankSpace">
+    <!--Provides a blank node, while preserving both open and close tags-->
+    <xsl:variable name="empty"/>
+    <xsl:value-of select="$empty"/>
+  </xsl:template>
