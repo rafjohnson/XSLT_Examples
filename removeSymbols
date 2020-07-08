@@ -1,0 +1,8 @@
+  <xsl:template name="removeSymbols">
+    <!--Used to remove symbols from zip codes and phone numbers, Times. -->
+    <xsl:param name="string"/>
+    <xsl:variable name ="zero-length-values" select ="''"/>
+    <xsl:variable name ="symbols" select="':()- '"/>
+    <xsl:value-of select="translate(normalize-space($string),$symbols,$zero-length-values)"/>
+
+  </xsl:template>
