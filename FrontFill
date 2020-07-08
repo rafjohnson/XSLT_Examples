@@ -1,0 +1,19 @@
+  <xsl:template name="FrontFill">
+    <!--Template front fills a string with specified character.-->
+    <xsl:param name="string"/>
+    <xsl:param name="frontFill_Character"/>
+    <xsl:param name="length"/>
+
+    <xsl:choose>
+      <xsl:when test="string-length($string) &lt; $length">
+        <xsl:call-template name="FrontFill">
+          <xsl:with-param name="string" select="concat($frontFill_Character,$string)"/>
+          <xsl:with-param name="length" select="$length"/>
+          <xsl:with-param name="frontFill_Character" select="$frontFill_Character"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$string"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
