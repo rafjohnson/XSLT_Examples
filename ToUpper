@@ -1,0 +1,7 @@
+  <xsl:template name="toUpper">
+    <xsl:param name="string"/>
+    <xsl:variable name ="lowercase" select="'abcdefghijklmnopqrstuvwxyz'" />
+    <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
+
+    <xsl:value-of select="translate(normalize-space($string),$lowercase,$uppercase)" />
+  </xsl:template>
