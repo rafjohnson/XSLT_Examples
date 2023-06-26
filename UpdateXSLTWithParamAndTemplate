@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl"
+    xmlns:exsl="http://exslt.org/common"
+    extension-element-prefixes="exsl"
+				
+				
+>
+	<xsl:variable name="vQ">'</xsl:variable>
+	<xsl:output method="xml" indent="yes" />
+	<xsl:param name="paramName" />
+	<xsl:param name="myTemplate" /> 
+	<!--<xsl:param name="myTemplate"  select="concat(' &lt;xsl:template match=&quot;/hl7:ClinicalDocument/hl7:component/hl7:structuredBody/hl7:component/hl7:section[hl7:templateId/@root = ', $vQ,'2.16.840.1.113883.10.20.22.2.10', $vQ,']&quot;&gt;&lt;xsl:param name=&quot;RemoveTreatmentPlan&quot;/&gt;&lt;xsl:choose&gt;&lt;!&lt;xsl:when test=&quot;$RemoveTreatmentPlan = 1&quot;&gt; &lt;/xsl:when&gt;&lt;xsl:otherwise&gt;&lt;xsl:copy&gt;&lt;xsl:apply-templates select=&quot;@* | node()&quot;/&gt;&lt;/xsl:copy&gt;&lt;/xsl:otherwise&gt;&lt;/xsl:choose&gt;&lt;/xsl:template&gt;')"/>
+-->
+	<!--Identity Match-->
+	<xsl:template match="@* | node()">
+		<xsl:copy>
+			<xsl:apply-templates select="@* | node()"/>
+		</xsl:copy>
+	</xsl:template>
+
+	<xsl:template match="//xsl:apply-templates">
+
+	</xsl:template>
+
+	<xsl:template match="/xsl:stylesheet">
+		<xsl:copy>
+			<!--Add all attributes-->
+			<xsl:copy-of select="@*"/>
+			<!--Add the new param to the params list-->
+			<xsl:element name="xsl:param" >
+				<!--Name attribute-->
+				<xsl:attribute name="name">
+					<xsl:value-of select="$paramName"/>
+				</xsl:attribute>
+			</xsl:element>
+			<!--Copy all the existing params-->
+			<xsl:copy-of select="xsl:param"/>
+			
+			<!--Add/update identity template-->
+			<xsl:variable name="Ident" select="xsl:template[@match='@* | node()']"/>
+			<xsl:call-template name="fixIdent">
+				<xsl:with-param  name="identNode" select="$Ident"/>
+				<xsl:with-param name="paramName" select="$paramName"/>
+			</xsl:call-template>
+			
+			<!--Everything but the identity template-->
+			<xsl:copy-of select="xsl:template[not(@match='@* | node()')]"/>
+			
+			
+			<!--Add the template-->
+			<xsl:value-of select="$myTemplate" disable-output-escaping="yes"/>
+
+		</xsl:copy>
+	</xsl:template>
+
+
+<xsl:template name="fixIdent">
+		<xsl:param name="identNode"/>
+		<xsl:param name="paramName"/>
+
+		<!--Now we're going to build a new identity template-->
+		<xsl:element name="xsl:template">
+			<xsl:attribute name="match">@* | node()</xsl:attribute>
+			<xsl:element name="xsl:copy">
+				<xsl:element name="xsl:apply-templates">
+					<xsl:attribute name="select" >@* | node()</xsl:attribute>
+					<xsl:for-each select="$identNode/xsl:copy/xsl:apply-templates/xsl:with-param">
+						<xsl:copy-of select="."/>
+					</xsl:for-each>
+					<!--Add the new element-->
+					<xsl:element name="xsl:with-param">
+					<xsl:attribute name="name">
+						<xsl:value-of select="$paramName"/>
+					</xsl:attribute>
+					<xsl:attribute name="select">
+						<xsl:value-of select="concat('$',$paramName)"/>
+					</xsl:attribute>
+					</xsl:element>
+				</xsl:element>
+
+			</xsl:element>
+
+		</xsl:element>
+
+	</xsl:template>
+
+</xsl:stylesheet>
